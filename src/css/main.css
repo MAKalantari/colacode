@@ -1,0 +1,24 @@
+@import "font.css";
+@import "scaling.css";
+@import "ui_theme.css";
+@import "editor_theme.css";
+@import "icons.css";
+@import "static.css";
+@import "dynamic.css";
+@import "editor.css";
+
+
+:root {
+    --mouse-x: 0px;
+    --mouse-y: 0px;
+    cursor: var(--cursor);
+}
+
+body {
+    background-color: var(--background-color, lightgray);
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}

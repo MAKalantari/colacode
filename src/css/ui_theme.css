@@ -1,0 +1,79 @@
+
+* {  
+    --animation-time: 0s;
+    --background-color: black;
+    --view-content-gap: 3px;
+    --panel-background-color: black;
+    --panel-border-color: #444;
+    --panel-border-color-focused: white;
+    --panel-border-radius: 0px;
+    --panel-border-width: 1px;
+    --panel-border-style: solid;
+    --panel-border-style-focused: solid;
+    --bar-height: 40px;
+    --edge-cover-visible: visible;
+    --edge-padding: 0px;
+    --resize-mode: horizontal;
+    --ui-font-family: "Adwaita sans";
+    --ui-font-size: 12px;
+    --panel-content-color: white;
+    --button-background-color: black;
+    --button-border-color: transparent;
+    --button-border-color-hover: white;
+    --button-border-width: 1px;
+    --button-border-radius: 0px;
+    --button-border-radius-hover: 0px;
+    --button-border-radius-active: 0px;
+    --button-content-color: white;
+    --panel-content-padding: 2px;
+    --button-content-padding: 2px 8px;
+    --button-background-color-hover: white;
+    --button-content-color-hover: black;
+    --button-background-color-active: black;
+    --button-content-color-active: lightgrey;
+    --button-border-color-active: white;
+    --cursor: initial;
+    --software-cursor-display: none;
+    --edge-width: 15px;
+}
+
+
+
+/* * {  
+    --animation-time: 0s;
+    --background-color: white;
+    --view-content-gap: 2px;
+    --panel-background-color: white;
+    --panel-border-color: black;
+    --panel-border-color-focused: black;
+    --panel-border-radius: 0px;
+    --panel-border-width: 1px;
+    --panel-border-style: solid;
+    --panel-border-style-focused: solid;
+    --bar-height: 40px;
+    --edge-cover-visible: visible;
+    --edge-padding: 0px;
+    --resize-mode: horizontal;
+    --ui-font-family: "Adwaita sans";
+    --ui-font-size: 12px;
+    --panel-content-color: black;
+    --button-background-color: white;
+    --button-border-color: transparent;
+    --button-border-color-hover: black;
+    --button-border-width: 1px;
+    --button-border-radius: 0px;
+    --button-border-radius-hover: 0px;
+    --button-border-radius-active: 0px;
+    --button-content-color: black;
+    --panel-content-padding: 2px;
+    --button-content-padding: 2px 8px;
+    --button-background-color-hover: black;
+    --button-content-color-hover: white;
+    --button-background-color-active: white;
+    --button-content-color-active: #444444;
+    --button-border-color-active: black;
+    --cursor: initial;
+    --software-cursor-display: none;
+    --edge-width: 15px;
+} */
+

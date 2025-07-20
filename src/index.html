@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js" defer></script>
+    <title>ColaCode</title>
+</head>
+<body>
+    <div class="view main">
+        <div class="view left">
+
+            <div class="panel">
+                <div style="flex-wrap: wrap; justify-content: stretch;" class="panel">
+                    <button style="flex: 1 1 auto; text-align: center;">Browse</button>
+                    <button style="flex: 1 1 auto; text-align: center;">Settings</button>
+                    <button style="flex: 1 1 auto; text-align: center;">Config</button>
+                    <button style="flex: 1 1 auto; text-align: center;">Search</button>
+                </div>
+            </div>
+            <div class="edge-right"></div>
+        </div>
+        <div class="view middle">
+            <div class="view bar">
+                <div class="panel">
+                    <div class="logo"><h1>C O L A</h1><h2>C O D E</h2></div>
+                    <button>File</button>
+                    <button>Edit</button>
+                    <button>Selection</button>
+                    <button>View</button>
+                    <button>Run</button>
+                    <button>About</button>
+                    <button>Donate</button>
+                </div>
+                <div class="panel mini-bar">
+                    <div class="edge-left"></div>
+                    <button>
+                        
+                        <img style="--button-image: var(--icon-play)"/>
+                        RUN
+                    </button>
+                </div>
+                <div class="panel mini-bar">
+
+                <button class="rect"><img style="--button-image: var(--icon-minimize)"/></button>
+                <button class="rect"><img style="--button-image: var(--icon-maximize)"/></button>
+                <button class="rect"><img style="--button-image: var(--icon-close)"/></button>
+                </div>
+                <div class="edge-bottom"></div>
+            </div>
+            <div class="view editor">
+
+                <div class="panel page">
+                    <ul class="tabbar">
+                        <li disable>tab1</li>
+                        <li>tab2</li>
+                        <li>tab3</li>
+                    </ul>
+                    <header>
+                        /file/path.ext > ExtensionName [Unsaved] [local]
+                    </header>
+                    <ol contenteditable="true">
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="true"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                    </ol>
+                    <footer>
+                        <div class="edge-top"></div>
+                        details
+                        
+                    </footer>
+                    <div class="edge-right" percent></div>
+                    <div class="edge-bottom" percent></div>
+                </div>
+
+                <div class="panel page">
+                    <ul class="tabbar">
+                        <li disable>tab1</li>
+                        <li>tab2</li>
+                        <li>tab3</li>
+                    </ul>
+                    <header>
+                        /file/path.ext > ExtensionName [Unsaved] [local]
+                    </header>
+                    <ol contenteditable="true">
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="true"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                    </ol>
+                    <footer>
+                        <div class="edge-top"></div>
+                        details
+                        
+                    </footer>
+                    <div class="edge-right" percent></div>
+                    <div class="edge-bottom" percent></div>
+                </div>
+
+                <div class="panel page">
+                    <ul class="tabbar">
+                        <li disable>tab1</li>
+                        <li>tab2</li>
+                        <li>tab3</li>
+                    </ul>
+                    <header>
+                        /file/path.ext > ExtensionName [Unsaved] [local]
+                    </header>
+                    <ol contenteditable="true">
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="true"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                    </ol>
+                    <footer>
+                        <div class="edge-top"></div>
+                        details
+                        
+                    </footer>
+                    <div class="edge-right" percent></div>
+                    <div class="edge-bottom" percent></div>
+                </div>
+
+                <div class="panel page">
+                    <ul class="tabbar">
+                        <li disable>tab1</li>
+                        <li>tab2</li>
+                        <li>tab3</li>
+                    </ul>
+                    <header>
+                        /file/path.ext > ExtensionName [Unsaved] [local]
+                    </header>
+                    <ol contenteditable="true">
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="true"><ul></ul><label></label><span>code here @</span></li>
+                        <li currentline="false"><ul></ul><label></label><span>code here @</span></li>
+                    </ol>
+                    <footer>
+                        <div class="edge-top"></div>
+                        details
+                        
+                    </footer>
+                    <div class="edge-right" percent></div>
+                    <div class="edge-bottom" percent></div>
+                </div>
+                
+            </div>
+            <div class="panel bar">
+                <div class="edge-top"></div>
+
+            </div>
+        </div>
+    </div>
+    <div class="panel contextmenu" id="contextmenu" focused="true">
+        <button>one</button>
+        <button>two</button>
+        <button>three</button>
+    </div>
+    <div class="edge-cover"></div>
+    <div class="panel resize-notif" focused="true" id="resizeNotif"></div>
+    <div class="software-cursor"></div>
+
+</body>
+</html>

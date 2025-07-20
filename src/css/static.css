@@ -1,0 +1,332 @@
+:root {
+     --cursor-width: calc(var(--ui-font-size) * .66);
+     --cursor-height: var(--ui-font-size);
+}
+
+* {
+    cursor: var(--cursor);
+}
+
+.view {
+    --content-direction: row;
+    --resize-mode: none;
+    display: flex;
+    flex-direction: var(--content-direction);
+    gap: var(--view-content-gap, 6px);
+    padding: var(--view-padding, 0);
+    box-sizing: border-box;
+    flex: 1 1;
+    position: relative;
+}
+
+.panel {
+    position: relative;
+    --content-direction: row;
+    --resize-mode: both;
+    background-color: var(--panel-background-color, white);
+    border-radius: var(--panel-border-radius, 4px);
+    border: var(--panel-border-width, 1px) var(--panel-border-style, solid) var(--panel-border-color, grey);
+    display: flex;
+    flex-direction: var(--content-direction);
+    gap: var(--panel-content-gap, 4px);
+    color: var(--panel-content-color, black);
+    padding: var(--panel-content-padding, 8px);
+    opacity: var(--panel-opacity, 1);
+    flex: 1 1;
+    box-sizing: border-box;
+    align-items: flex-start;
+    transition-duration: var(--animation-time, .15s);
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-font-size);
+}
+
+.panel::selection {
+    color: var(--panel-background-color, white);
+    background-color: var(--panel-content-color, grey);
+}
+
+.panel[focused="true"],
+.panel:focus-within {
+    background-color: var(--panel-background-color-focused, var(--panel-background-color));
+    border:
+    var(--panel-border-width-focused, var(--panel-border-width, 1px))
+    var(--panel-border-style-focused, var(--panel-border-style, solid))
+    var(--panel-border-color-focused, var(--panel-border-color, black));
+    color: var(--panel-content-color-focused, var(--panel-content-color, black));
+    opacity: var(--panel-opacity-focused, var(--panel-opacity, 1));
+}
+
+.panel > * {
+    opacity: var(--panel-content-opacity, 1);
+}
+
+.panel:focus > * {
+    opacity: var(--panel-content-opacity-focused, var(--panel-content-opacity, 1));
+}
+
+.edge-cover {
+    visibility: var(--edge-cover-visible, hidden);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    border: var(--edge-cover-width, var(--panel-border-width, 1px)) solid var(--background-color, white);
+    user-select: none;
+    pointer-events: none;
+}
+
+
+button {
+    display: flex;
+    background-color: var(--button-background-color, lightgrey);
+    color: var(--button-accent, var(--button-content-color, black));
+    border-radius: var(--button-border-radius, 4px);
+    border: var(--button-border-width, 1px) var(--button-border-style, solid) var(--button-border-color, grey);
+    padding: var(--button-content-padding, 6px 12px);
+    gap: var(--button-content-gap, 4px);
+    transition-duration: var(--animation-time, .15s);
+    cursor: var(--cursor, pointer);
+    align-items: center;
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-font-size);
+}
+
+button > img {
+    mask-image: var(--button-image, url(""));
+    background-repeat: no-repeat;
+    width: var(--ui-font-size);
+    height: var(--ui-font-size);
+    background-color: var(--button-accent, var(--button-content-color, black));
+    pointer-events: none;
+}
+
+button:hover {
+    background-color: var(--button-background-color-hover, grey);
+    color: var(--button-accent-hover, var(--button-content-color-hover, black));
+    border-radius: var(--button-border-radius-hover, 2px);
+    border: var(--button-border-width, 1px) var(--button-border-style-hover, solid) var(--button-border-color-hover, black);
+}
+
+button:hover > img {
+    background-color: var(--button-accent-hover, var(--button-content-color-hover, black));
+}
+
+
+button:active{
+    background-color: var(--button-background-color-active, lightgrey);
+    color: var(--button-accent-active, var(--button-content-color-active, black));
+    border-radius: var(--button-border-radius-active, 2px);
+    border: var(--button-border-width, 1px) var(--button-border-style-active, solid) var(--button-border-color-active, black);
+}
+
+button:active > img {
+    background-color: var(--button-accent-active, var(--button-content-color-active, black));
+}
+
+.software-cursor {
+    display: var(--software-cursor-display);
+    position: absolute;
+    left: var(--mouse-x);
+    top: var(--mouse-y);
+    background-color: white;
+    height: var(--cursor-height);
+    width: var(--cursor-width);
+    pointer-events: none;
+    border: 1px solid black;
+    border-width: 1px 2px 2px 1px;
+    border-radius: 3px;
+    transition: width .15s ease, height .15s ease !important;;
+}
+
+.resizer {
+    flex: 0 0 auto;
+    background-color: red;
+    width: auto;
+    height: auto;
+    padding: 2px;
+}
+
+.edge-right {
+    position: absolute;
+    width: var(--edge-width, 5px);
+    z-index: 1;
+    height: 100%;
+    right: calc(-1 * var(--edge-width, 5px) / 2);
+    top: 0;
+    box-sizing: border-box;
+    cursor: var(--cursor, col-resize);
+}
+
+.edge-right::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    width: 25%;
+    height: 100%;
+    left: 50%;
+}
+
+.edge-left {
+    position: absolute;
+    width: var(--edge-width, 5px);
+    z-index: 1;
+    height: 100%;
+    left: calc(-1 * var(--edge-width, 5px) / 2);
+    top: 0;
+    box-sizing: border-box;
+    cursor: var(--cursor, col-resize);
+}
+
+.edge-left::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    width: 25%;
+    height: 100%;
+    left: 50%;
+}
+
+.edge-right:hover::after {
+    
+}
+
+.edge-bottom {
+    position: absolute;
+    height: var(--edge-width, 5px);
+    width: 100%;
+    left: 0;
+    z-index: 1;
+    bottom: calc(-1 * var(--edge-width, 5px) / 2);
+    box-sizing: border-box;
+    cursor: var(--cursor, row-resize);
+}
+
+.edge-bottom::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 25%;
+    top: 50%;
+}
+
+.edge-bottom:hover::after {
+    
+}
+
+
+.edge-top {
+    position: absolute;
+    height: var(--edge-width, 5px);
+    width: 100%;
+    left: 0;
+    z-index: 1;
+    top: calc(-1 * var(--edge-width, 5px) / 2);
+    box-sizing: border-box;
+    cursor: var(--cursor, row-resize);
+}
+
+.edge-top::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 25%;
+    top: 50%;
+}
+
+.edge-top:hover::after {
+    
+}
+
+.resize-notif {
+    display: none;
+    position: absolute;
+    left: var(--mouse-x);
+    top: var(--mouse-y);
+    translate: -50% -150%;
+    z-index: 1;
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    gap: 0;
+    padding: 0 calc(var(--ui-font-size) / 6);
+    cursor: var(--cursor, pointer);
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: transparent;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.logo:hover {
+    border-color: var(--panel-content-color);
+}
+
+.logo > * {
+    color: var(--panel-content-color);
+    font-size: var(--ui-font-size);
+    margin: 0;
+    padding: 0;
+    font-family: var(--ui-font-family);
+    font-size: calc(var(--ui-font-size) - 3px);
+    font-weight: 500;
+    user-select: none;
+
+}
+
+.logo > h2 {
+    translate: 0 calc(-1 * var(--ui-font-size) / 5);
+}
+
+
+
+.tabbar {
+    width: 100%;
+    display: flex;
+    flex: wrap;
+    flex-direction: row;
+    list-style: none;
+    list-style-type: none;
+    gap: var(--editor-tabbar-content-gap);
+    background-color: var(--editor-tabbar-background-color);
+    border-width: var(--editor-tabbar-border-width);
+    border-style: var(--editor-tabbar-border-style);
+    border-color: var(--editor-tabbar-border-color);
+    padding: var(--editor-tabbar-content-padding, 0);
+    margin: var(--editor-tabbar-margin, 0);
+}
+
+.tabbar > li {
+    display: flex;
+    flex: wrap;
+    gap: var(--editor-tab-content-gap);
+    background-color: var(--editor-tab-background-color);
+    border-width: var(--editor-tab-border-width);
+    border-style: var(--editor-tab-border-style);
+    border-color: var(--editor-tab-border-color);
+    min-height: var(--editor-tab-min-height);
+    padding: var(--editor-tab-content-padding);
+}
+
+.tabbar > li:hover {
+    background-color: var(--editor-tab-background-color-hover);
+    border-width: var(--editor-tab-border-width-hover);
+    border-style: var(--editor-tab-border-style-hover);
+    border-color: var(--editor-tab-border-color-hover);
+}
+
+.tabbar> li:disabled {
+    background-color: var(--editor-tab-background-color-focused);
+    background-color: red !important;
+    border-width: var(--editor-tab-border-width-focused);
+    border-style: var(--editor-tab-border-style-hover-focused);
+    border-color: var(--editor-tab-border-color-hover-focused);
+}
