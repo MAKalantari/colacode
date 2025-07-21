@@ -1,4 +1,4 @@
-* {
+:root {
     --editor-background-color: black;
     --editor-text-color: white;
     --editor-font-family: "Hack";
@@ -44,7 +44,6 @@
     --editor-tab-border-style: dotted;
     --editor-tab-border-style-hover: solid;
     --editor-tab-border-style-focused: solid;
-
 }
 
 /* * {

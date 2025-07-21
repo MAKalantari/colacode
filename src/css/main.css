@@ -11,6 +11,8 @@
 :root {
     --mouse-x: 0px;
     --mouse-y: 0px;
+    --page-min-width: 200px;
+    --page-min-height: 200px;
     cursor: var(--cursor);
 }
 
