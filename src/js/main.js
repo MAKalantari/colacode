@@ -71,6 +71,7 @@ var resizingElement_siblings_on_right_total_width = 0;
 var resizingElement_siblings_on_right_needed_width = 0;
 var resizingElement_siblings_on_left_and_right = []
 var resizingElement_siblings_on_left = [];
+var resizingElement_right_bound = 0;
 var resizingElement_siblings_on_left_total_width = 0;
 var resizingElement_siblings_on_bottom = [];
 var resizingElement_siblings_on_bottom_total_height = 0;
@@ -79,6 +80,47 @@ var resizingElement_siblings_on_bottom_needed_height = 0;
 function equal(a, b, error_margin) {
     return Math.abs(a-b) <= error_margin;
 }
+
+// returns the start and end point of the self and the siblings in a row
+// leaving out empty areas of the parent
+function getActualBoundInRow(child) {
+    var siblings = child.parentNode.children
+    var selfBound = child.getBoundingClientRect();
+    var parentBound = child.parentNode.getBoundingClientRect();
+    var bound = {start: parentBound.width, end: 0};
+    for (i = 0; i < siblings.length; i++) {
+        var siblingBound = siblings[i].getBoundingClientRect();
+        if (equal(siblingBound.top, selfBound.top, 1) && siblings[i] != child) {
+            if (siblingBound.left - parentBound.left < bound.start)
+                bound.start = siblingBound.left - parentBound.left;
+            if (siblingBound.left - parentBound.left + siblingBound.width > bound.end)
+                bound.end = siblingBound.left + siblingBound.width  - parentBound.left;
+        }
+    }
+    if (bound.end == 0)
+        bound.end = parentBound.width;
+    if (bound.start == parentBound.width)
+        bound.start = 0;
+    return bound;
+}
+
+function getActualBoundInColumn(child) {
+    var siblings = child.parentNode.children
+    var selfBound = child.getBoundingClientRect();
+    var parentBound = child.parentNode.getBoundingClientRect();
+    var bound = {start: parentBound.height, end: 0};
+    for (i = 0; i < siblings.length; i++) {
+        var siblingBound = siblings[i].getBoundingClientRect();
+        if (equal(siblingBound.left, selfBound.left, 1)) {
+            if (siblingBound.top - parentBound.top < bound.start)
+                bound.start = siblingBound.top - parentBound.top;
+            if (siblingBound.top - parentBound.top + siblingBound.height > bound.end)
+                bound.end = siblingBound.top + siblingBound.height  - parentBound.top;
+        }
+    }
+    return bound;
+}
+
 addEventListener("mousedown", (e) => {
     if (e.target.className == "edge-bottom") {
         e.preventDefault();
@@ -86,14 +128,15 @@ addEventListener("mousedown", (e) => {
         resizingElement = e.target.parentNode;
         resizingElement_starting_bound = resizingElement.getBoundingClientRect();
         resizingEdge = e.target;
-
+        var siblings = Array.from(resizingElement.parentNode.children);
+        var resizingElementIndex = siblings.indexOf(resizingElement);
+        var parentBound = resizingElement.parentNode.getBoundingClientRect();
         if (resizingElement_starting_bound.bottom != resizingElement.parentNode.bottom) {
             isResizing = true;
             resizeNotif.style.display = "flex";
             resizing_bottom = true;
             resizingElement_siblings_on_left_and_right = [];
-            var siblings = Array.from(resizingElement.parentNode.children);
-            var resizingElementIndex = siblings.indexOf(resizingElement);
+
             for (var i = 0; i < siblings.length; i++) {
                 if (i != resizingElementIndex)
                     if (siblings[i].getBoundingClientRect().top === resizingElement.getBoundingClientRect().top)
@@ -106,16 +149,16 @@ addEventListener("mousedown", (e) => {
         resizingElement_siblings_on_bottom_needed_height = 0;
         var last_top = -999;
         for (var i = resizingElementIndex + 1; i < siblings.length; i++) {
-            if (siblings[i].getBoundingClientRect().top > resizingElement.getBoundingClientRect().top) {
-                let sibling_height = siblings[i].getBoundingClientRect().height
-                resizingElement_siblings_on_bottom.push([siblings[i], sibling_height]);
-                if (siblings[i].getBoundingClientRect().top != last_top)
-                    resizingElement_siblings_on_bottom_total_height += sibling_height;
-                if (siblings[i].hasAttribute("resize_height_min"))
-                    if (siblings[i].getBoundingClientRect().top != last_top)
-                        resizingElement_siblings_on_bottom_needed_height += Number(siblings[i].getAttribute("resize_height_min"));
-                if (siblings[i].getBoundingClientRect().top != last_top)
-                    last_top = siblings[i].getBoundingClientRect().top;
+            var siblingBound = siblings[i].getBoundingClientRect();
+            if (siblingBound.top > resizingElement.getBoundingClientRect().top) {
+                resizingElement_siblings_on_bottom.push([siblings[i], siblingBound.height]);
+                if (siblingBound.top != last_top)
+                    resizingElement_siblings_on_bottom_total_height += siblingBound.height;
+
+                if (siblingBound.top != last_top)
+                    resizingElement_siblings_on_bottom_needed_height += getCssValue(siblings[i], "min-height", parentBound.height);
+                if (siblingBound.top != last_top)
+                    last_top = siblingBound.top;
             }
         }
 
@@ -126,6 +169,9 @@ addEventListener("mousedown", (e) => {
         resizingElement = e.target.parentNode;
         resizingElement_starting_bound = resizingElement.getBoundingClientRect();
         resizingEdge = e.target;
+        var siblings = Array.from(resizingElement.parentNode.children);
+        var resizingElementIndex = siblings.indexOf(resizingElement);
+        var parentBound = resizingElement.parentNode.getBoundingClientRect();
         if (e.altKey ||
             !equal(resizingElement_starting_bound.left + resizingElement_starting_bound.width,
             resizingElement.parentNode.getBoundingClientRect().left + resizingElement.parentNode.getBoundingClientRect().width, 2)){
@@ -135,15 +181,18 @@ addEventListener("mousedown", (e) => {
             resizingElement_siblings_on_right = [];
             resizingElement_siblings_on_right_total_width = 0;
             resizingElement_siblings_on_right_needed_width = 0;
-            var siblings = Array.from(resizingElement.parentNode.children);
-            var resizingElementIndex = siblings.indexOf(resizingElement);
+            resizingElement_right_bound =
+                resizingElement.parentNode.getBoundingClientRect().width - (resizingElement_starting_bound.left - resizingElement.parentNode.getBoundingClientRect().left);
+
             for (var i = resizingElementIndex + 1; i < siblings.length; i++) {
                 if (siblings[i].getBoundingClientRect().top == resizingElement.getBoundingClientRect().top) {
-                    let sibling_width = siblings[i].getBoundingClientRect().width
-                    resizingElement_siblings_on_right.push([siblings[i], sibling_width]);
-                    resizingElement_siblings_on_right_total_width += siblings[i].getBoundingClientRect().width;
-                    if (siblings[i].hasAttribute("resize_width_min"))
-                        resizingElement_siblings_on_right_needed_width += Number(siblings[i].getAttribute("resize_width_min"));
+                    var siblingBound = siblings[i].getBoundingClientRect();
+
+                    resizingElement_siblings_on_right.push([siblings[i], siblingBound.width]);
+                    resizingElement_siblings_on_right_total_width += siblingBound.width;
+                    resizingElement_right_bound = siblingBound.left - parentBound.left + siblingBound.width;
+
+                    resizingElement_siblings_on_right_needed_width += getCssValue(siblings[i], "min-width", parentBound.width);
                 }
             }
         }
@@ -192,6 +241,15 @@ function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
+function getCssValue (node, variable, total = 0) {
+    var raw_value = window.getComputedStyle(node).getPropertyValue(variable);
+    if (raw_value.search("px") != -1)
+        return parseInt(raw_value);
+    if (raw_value.search("%") != -1)
+        return (total / 100) * parseFloat(raw_value);
+    return 0;
+}
+
 
 var lastTargetTagName = "none"
 addEventListener("mousemove", (e) => {
@@ -223,9 +281,8 @@ addEventListener("mousemove", (e) => {
         var max = 999;
         if (resizing_right) {
             value.x = round(e.clientX - selfBound.left, grid_size.x, 10);
-            max = parentBound.width - (resizingElement.getBoundingClientRect().left - parentBound.left) - resizingElement_siblings_on_right_needed_width;
-            if (resizingElement.hasAttribute("resize_width_min"))
-                min = resizingElement.getAttribute("resize_width_min");
+            max = resizingElement_right_bound - resizingElement_siblings_on_right_needed_width;
+            min = getCssValue(resizingElement, "min-width", parentBound.width);
             value.x = clamp(value.x, min, max);
             if (!e.altKey) {
                 var remaining_width = resizingElement_siblings_on_right_total_width - (value.x - resizingElement_starting_bound.width);
@@ -240,9 +297,8 @@ addEventListener("mousemove", (e) => {
 
         if (resizing_bottom) {
             value.y = round(resizingElement.style.height = e.clientY - selfBound.top, grid_size.y, 10);
-            max = parentBound.height - (resizingElement.getBoundingClientRect().top - parentBound.top);
-            if (resizingElement.hasAttribute("resize_height_min"))
-                min = resizingElement.getAttribute("resize_height_min");
+            max = getActualBoundInColumn(resizingElement).end - resizingElement_siblings_on_bottom_needed_height;
+            min = getCssValue(resizingElement, "min-height", parentBound.height);
             value.y = clamp(value.y, min, max);
             if (!e.altKey) {
                 resizingElement_siblings_on_left_and_right.forEach(sibling => {

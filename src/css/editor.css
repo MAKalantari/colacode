@@ -27,7 +27,8 @@
     width: 50%;
     height: 50%;
     box-sizing: border-box;
-
+    min-width: 10%;
+    min-height: 10%;
 }
 
 .page > header {
