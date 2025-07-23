@@ -91,6 +91,8 @@ button {
     align-items: center;
     font-family: var(--ui-font-family);
     font-size: var(--ui-font-size);
+    text-align: center;
+    justify-content: center;
 }
 
 button > img {
@@ -168,6 +170,10 @@ button:active > img {
     left: 50%;
 }
 
+.edge-right:hover::after {
+    background-color: var(--panel-border-color, lightgrey);
+}
+
 .edge-left {
     position: absolute;
     width: var(--edge-width, 5px);
@@ -188,8 +194,8 @@ button:active > img {
     left: 50%;
 }
 
-.edge-right:hover::after {
-    
+.edge-left:hover::after {
+    background-color: var(--panel-border-color, lightgrey);
 }
 
 .edge-bottom {
@@ -213,7 +219,7 @@ button:active > img {
 }
 
 .edge-bottom:hover::after {
-    
+    background-color: var(--panel-border-color, lightgrey);
 }
 
 
@@ -238,7 +244,7 @@ button:active > img {
 }
 
 .edge-top:hover::after {
-    
+    background-color: var(--panel-border-color, lightgrey);
 }
 
 .resize-notif {
@@ -325,8 +331,49 @@ button:active > img {
 
 .tabbar> li:disabled {
     background-color: var(--editor-tab-background-color-focused);
-    background-color: red !important;
     border-width: var(--editor-tab-border-width-focused);
     border-style: var(--editor-tab-border-style-hover-focused);
     border-color: var(--editor-tab-border-color-hover-focused);
+}
+
+.scroll-v {
+    flex: 0 0 auto;
+    flex-direction: column;
+    width: var(--scroll-width, 24px);
+    padding: var(--scroll-padding, 0 0 0 4px);
+    display: flex;
+    box-sizing: border-box;
+    transition-duration: var(--animation-time);
+    position: relative;
+    min-width: var(--scroll-width, 24px);
+}
+
+.scroll-v > div {
+    border-width: var(--scroll-border-width);
+    border-style: var(--scroll-border-style);
+    border-color: var(--scroll-border-color);
+    flex: 0 1 auto;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    box-sizing: border-box;
+    transition-duration: var(--animation-time);
+}
+.scroll-v:hover > div {
+    border-style: var(--scroll-border-style-focused);
+    border-color: var(--scroll-border-color-focused);
+}
+.scroll-v:hover {
+    padding: var(--scroll-padding-hover, 0);
+}
+
+.scroll-v > div > button {
+    padding: 0px;
+    width: 100%;
+}
+
+.scroll-v > div > section {
+    flex: 1 1 auto;
+    width: 100%;
 }
