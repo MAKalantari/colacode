@@ -16,6 +16,11 @@
     cursor: var(--cursor);
 }
 
+ * {
+     -ms-overflow-style: none;
+     scrollbar-width: none;
+ }
+
 body {
     background-color: var(--background-color, lightgray);
     padding: 0 !important;

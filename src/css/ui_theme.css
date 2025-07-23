@@ -38,12 +38,25 @@
     --scroll-width: 12px;
     --scroll-padding: 0px;
     --scroll-padding-hover: 0px;
-    --scroll-border-width: 1px;
+    --scroll-border-width: 1px 0 1px 1px;
     --scroll-border-style: solid;
     --scroll-border-color: var(--panel-border-color);
     --scroll-border-width-focused: 1px;
     --scroll-border-style-focused: solid;
     --scroll-border-color-focused: var(--panel-border-color-focused);
+    --scroll-button-background-color: black;
+    --scroll-button-background-color-hover: white;
+    --scroll-button-background-color-focus: white;
+    --scroll-button-border-width: 1px 0 1px 1px;
+    --scroll-button-border-color: white;
+    --scroll-button-border-style: 1px 0 1px 1px;
+    --scroll-button-border-radius: 0px;
+    --scroll-button-border-color-hover: white;
+    --scroll-button-border-style-hover: 1px 0 1px 1px;
+    --scroll-button-border-radius-hover: 0px;
+    --scroll-button-border-color-focus: white;
+    --scroll-button-border-style-focus: 1px 0 1px 1px;
+    --scroll-button-border-radius-focus: 0px;
 }
 
 

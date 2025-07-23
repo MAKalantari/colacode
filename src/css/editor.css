@@ -16,9 +16,7 @@ editor-container {
     align-items: flex-start;
     align-content: flex-start;
     box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: hidden;
-
+    overflow-y: scroll;
 }
 
 .editor-scroll {
@@ -89,7 +87,7 @@ editor-container {
     font-size: var(--editor-font-size);
     height: 100%;
     max-height: 100%;
-    overflow: scroll;
+    overflow: hidden;
     width: 100%;
     box-sizing: border-box;
 }
@@ -137,12 +135,15 @@ editor-container {
     min-width: var(--gutter-margin, calc(var(--editor-font-size) / 2));
 }
 
+.page > section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
 
-
-.page > ol {
+.page > section > ol {
     padding: 0;
     margin: 0;
-    width: 100%;
     background-color: transparent;
     outline: none;
     border: none;
@@ -157,9 +158,10 @@ editor-container {
     counter-increment: line -1;
     font-size: var(--editor-font-size);
     font-family: var(--editor-font-family);
+    overflow: scroll;
 }
 
-.page > ol > li {
+.page > section > ol > li {
     width: 100%;
     height: auto;
     box-sizing: border-box;
@@ -172,24 +174,24 @@ editor-container {
     border-radius: var(--editor-line-border-radius);
 }
 
-.page > ol > li:focus-within,
-.page > ol > li[currentline="true"] {
+.page > section > ol > li:focus-within,
+.page > section > ol > li[currentline="true"] {
     color: var(--gutter-content-color-focus);
     border-color: var(--editor-line-border-color-focused);
 }
 
-.page > ol > li > ul{
+.page > section > ol > li > ul{
     display: flex;
     gap: calc(var(--editor-font-size) / 4);
     padding: 0;
     margin: 0;
 }
 
-.page > ol > li > label {
+.page > section > ol > li > label {
     display: flex;
     color: var(--gutter-content-color);
 }
-.page > ol > li > label::before {
+.page > section > ol > li > label::before {
     content: counter(line) " ";
     counter-increment: line 1;
     min-width: calc(var(--editor-font-size) * 3);
@@ -200,16 +202,16 @@ editor-container {
 }
 
 
-.page > ol > li[currentline="true"] > label {
+.page > section > ol > li[currentline="true"] > label {
     color: var(--gutter-content-color-focus);
 }
 
-.page > ol > li > span{
+.page > section > ol > li > span{
     flex: 1 1;
     margin-left: calc(var(--editor-font-size) / 2);
     background-color: var(--editor-line-text-background-color);
 }
 
-.page > ol > li[currentline="true"]  > span{
+.page > section > ol > li[currentline="true"]  > span{
 background-color: var(--editor-line-text-background-color-focused);
 }

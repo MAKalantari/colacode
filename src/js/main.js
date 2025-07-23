@@ -77,6 +77,12 @@ var resizingElement_siblings_on_bottom = [];
 var resizingElement_siblings_on_bottom_total_height = 0;
 var resizingElement_siblings_on_bottom_needed_height = 0;
 
+var isScrolling = false;
+var scrollingElement = null;
+var scrollingScroller = null;
+var scrollingButton = null;
+var scrollButtonStartingBound;
+
 function equal(a, b, error_margin) {
     return Math.abs(a-b) <= error_margin;
 }
@@ -122,6 +128,24 @@ function getActualBoundInColumn(child) {
 }
 
 addEventListener("mousedown", (e) => {
+    console.log(1)
+    var update_v = (e.target.getElementsByClassName("scroll-v").length > 0);
+    if (update_v)
+        for (scroller in e.target.getElementsByClassName("scroll-v"))
+            updateScrollerV(scroller);
+})
+
+var allScrollers = Array.from(document.getElementsByClassName("scroll-v"));
+
+for (var n = 0; n < allScrollers.length; n++) {
+    updateScrollerV(allScrollers[n]);
+}
+addEventListener("mousedown", (e) => {
+    clickPosition = {x: e.clientX, y: e.clientY};
+    clickPositionLocal = {
+        x: e.clientX - e.target.getBoundingClientRect().left,
+        y: e.clientY - e.target.getBoundingClientRect().top};
+
     if (e.target.className == "edge-bottom") {
         e.preventDefault();
         e.stopPropagation();
@@ -221,6 +245,18 @@ addEventListener("mousedown", (e) => {
             if (siblings[i].getBoundingClientRect().clientY == resizingElement.getBoundingClientRect()/clientY)
                 resizingElement_siblings_on_left.push([siblings[i], siblings[i].getBoundingClientRect().width]);
         }
+    } else if (e.target.className == "scrollButtonV") {
+        e.preventDefault();
+        e.stopPropagation();
+
+        scrollingScroller = e.target.parentNode.parentNode.parentNode;
+        scrollingElement = updateScrollerV(scrollingScroller);
+
+        if (scrollingElement) {
+            scrollButtonStartingBound = e.target.getBoundingClientRect();
+            scrollingButton = e.target;
+            isScrolling = true;
+        }
     }
 });
 
@@ -231,6 +267,7 @@ addEventListener("mouseup", (e) => {
     resizing_left = false;
     resizing_top = false;
     resizing_bottom = false;
+    isScrolling = false;
 });
 
 function round(number, increment, offset) {
@@ -250,6 +287,45 @@ function getCssValue (node, variable, total = 0) {
     return 0;
 }
 
+function updateScrollerV(input) {
+    var _scrollingElement = null;
+
+    if (input.hasAttribute("scrolls"))
+        _scrollingElement = document.getElementById(input.getAttribute("scrolls"));
+
+    if (!_scrollingElement) {
+        var siblings = Array.from(input.parentNode.children);
+        for (i = 0; i < siblings.length; i++) {
+
+            if (siblings[i] != input) {
+                _scrollingElement = siblings[i];
+                break;
+            }
+        }
+    }
+
+    if (!_scrollingElement)
+        return null;
+
+    var upButton = input.getElementsByTagName("BUTTON")[0];
+    var downButton = input.getElementsByTagName("BUTTON")[1];
+    var scrollbar = input.getElementsByTagName("SECTION")[0];
+    var scrollbarBound = scrollbar.getBoundingClientRect();
+    var _scrollButton = scrollbar.getElementsByTagName("BUTTON")[0];
+    var scrollBound = {top: _scrollingElement.scrollTop, bottom: _scrollingElement.scrollBottom};
+    var scrollDstance = _scrollingElement.scrollHeight;
+    var buttonHeight =  scrollbarBound.height * (scrollbarBound.height / scrollDstance);
+    var buttonHeightPercent = scrollbarBound.height / scrollDstance * 100;
+    var buttonPosition = ((scrollbarBound.height - buttonHeight) * (_scrollingElement.scrollTop / scrollDstance)) / scrollbarBound.height * 100;
+    _scrollButton.style.height = buttonHeightPercent + "%";
+    _scrollButton.style.top = buttonPosition + "%";
+    console.log(buttonHeight)
+    if (equal(buttonHeight, scrollbarBound.height, 24))
+        input.style.display = "none";
+    else
+        input.style.display = "flex";
+    return _scrollingElement;
+}
 
 var lastTargetTagName = "none"
 addEventListener("mousemove", (e) => {
@@ -333,6 +409,14 @@ addEventListener("mousemove", (e) => {
         }
 
 
+    }
+    else if (isScrolling) {
+        var min = 0
+        var max = scrollingButton.parentNode.clientHeight - scrollingButton.clientHeight;
+        var value = clamp(e.clientY - scrollingButton.parentNode.getBoundingClientRect().top - clickPositionLocal.y, min, max);;
+        scrollingButton.style.top = value + "px";
+        var scale  = value / (max - min);
+        scrollingElement.scrollTop = scrollingElement.offsetHeight * scale;
     }
     else if (e.target.tagName != lastTargetTagName) {
         lastTargetTagName = e.target.tagName

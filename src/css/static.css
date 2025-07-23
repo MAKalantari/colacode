@@ -17,6 +17,11 @@
     box-sizing: border-box;
     flex: 1 1;
     position: relative;
+    overflow: scroll;
+}
+
+.view::-webkit-scrollbar {
+    display: none;
 }
 
 .panel {
@@ -346,24 +351,21 @@ button:active > img {
     transition-duration: var(--animation-time);
     position: relative;
     min-width: var(--scroll-width, 24px);
+    background-color: var(--scroll-button-background-color, white);
+    border-width: var(--scroll-border-width, 1px);
+    border-style: var(--scroll-border-style, solid);
+    border-color: var(--scroll-border-color, white);
 }
 
 .scroll-v > div {
-    border-width: var(--scroll-border-width);
-    border-style: var(--scroll-border-style);
-    border-color: var(--scroll-border-color);
     flex: 0 1 auto;
     flex-direction: column;
     width: 100%;
     height: 100%;
     display: flex;
     box-sizing: border-box;
-    transition-duration: var(--animation-time);
 }
-.scroll-v:hover > div {
-    border-style: var(--scroll-border-style-focused);
-    border-color: var(--scroll-border-color-focused);
-}
+
 .scroll-v:hover {
     padding: var(--scroll-padding-hover, 0);
 }
@@ -371,9 +373,27 @@ button:active > img {
 .scroll-v > div > button {
     padding: 0px;
     width: 100%;
+    border-width: var(--scroll-button-border-width, 1px);
+    border-style: var(--scroll-button-border-style, solid);
+    border-color: var(--scroll-button-border-color, white);
+    border-radius: var(--scroll-button-border-radius, 1px);
 }
 
 .scroll-v > div > section {
     flex: 1 1 auto;
     width: 100%;
+    position: relative;
+}
+
+
+.scroll-v > div > section > button{
+    padding: 0px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    height: 10%;
+    border-width: var(--scroll-button-border-width, 1px);
+    border-style: var(--scroll-button-border-style, solid);
+    border-color: var(--scroll-button-border-color, white);
+    border-radius: var(--scroll-button-border-radius, 1px);
 }
